@@ -1,0 +1,21 @@
+.todo-container {
+  margin: 8px;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  background-color: white;
+}
+
+.title {
+  padding: 8px;
+}
+
+.task-list {
+  padding: 8px;
+  transition: background-color 0.2s ease;
+  background-color: white;
+}
+
+.dragging-over {
+  padding: 8px;
+  background-color: skyblue;
+}
