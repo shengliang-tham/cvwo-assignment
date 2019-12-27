@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import TodoInput from './Home/TodoInput'
-import TodoList from './Home/TodoList'
-import Column from './Home/Draggables/Column'
+import TodoInput from './TodoInput'
+import TodoList from './TodoList'
+import Column from './Draggables/Column'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './Home.css'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { Link } from "react-router-dom";
 
 
 class Home extends Component {
@@ -61,6 +62,7 @@ class Home extends Component {
   //     id: id
   //   })
   // }
+  //ASDASD
 
   state = {
     tasks: {

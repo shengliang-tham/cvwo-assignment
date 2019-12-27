@@ -1,0 +1,14 @@
+@import 'antd/dist/antd.css';
+
+.logo {
+  width: 25%;
+}
+
+.register-form {
+  width: 400px;
+  display: inline-block;
+}
+
+.register-form-button {
+  width: 100%;
+}
