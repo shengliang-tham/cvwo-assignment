@@ -1,16 +1,60 @@
 import React, { Component } from 'react'
 import './Login.css'
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, notification, Spin, } from 'antd';
 import { Container } from 'reactstrap';
 import Logo from 'images/logo_transparent.png'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
+
+const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 class Login extends Component {
+
+  state = {
+    spinner: false,
+    error: false,
+    errorMessage: '',
+
+  };
+
   handleSubmit = e => {
     e.preventDefault();
+
     this.props.form.validateFields((err, values) => {
+
       if (!err) {
+
+        this.setState({ spinner: true })
         console.log('Received values of form: ', values);
+        fetch('/api/login', {
+          method: 'post',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: values.email,
+            password: values.password,
+          })
+
+        }).then(response => response.json())
+
+          .then(data => {
+            this.setState({ spinner: false })
+            if (data.error) {
+              notification.error({
+                message: "Error",
+                description: data.error,
+                placement: "bottomRight",
+              });
+            } else {
+              notification.success({
+                message: "Successfully registered",
+                description: "Logging in..",
+                placement: "bottomRight",
+              });
+              this.props.history.push('/home');
+            }
+          })
       }
     });
   };
@@ -53,9 +97,11 @@ class Login extends Component {
               <a className="login-form-forgot" href="">
                 Forgot password
           </a> */}
-              <Button type="primary" htmlType="submit" className="login-form-button">
-                Log in
+              <Spin indicator={antIcon} spinning={this.state.spinner}>
+                <Button type="primary" htmlType="submit" className="login-form-button">
+                  Log in
               </Button>
+              </Spin>
               <Link to="/register"> Register now! </Link>
             </Form.Item>
           </Form>
@@ -65,4 +111,4 @@ class Login extends Component {
   }
 }
 
-export default Form.create({ name: "normal_login" })(Login)
+export default withRouter(Form.create({ name: "normal_login" })(Login))

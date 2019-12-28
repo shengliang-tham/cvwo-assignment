@@ -6,19 +6,38 @@ import {
   Form,
   Input,
   Button,
+  Spin,
+  Icon,
+  notification
 } from 'antd';
+
+const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+
+// const errorNotification = () => {
+//   notification.error({
+//     message: "Error",
+//     description: this.state.errorMesage,
+//     placement: "bottomRight",
+//   });
+
+//   this.setState({ error: false, errorMessage: '' })
+// };
 
 
 class Register extends Component {
   state = {
     confirmDirty: false,
     autoCompleteResult: [],
+    spinner: false,
+    error: false,
+    errorMessage: ''
   };
 
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        this.setState({ spinner: true })
         console.log('Received values of form: ', values);
         console.log(values.email)
         fetch('/api/create-user', {
@@ -29,11 +48,36 @@ class Register extends Component {
           },
           body: JSON.stringify({
             email: values.email,
-            password: values.password
+            password: values.password,
           })
-        }).then(result => {
-          console.log(result)
-        })
+        }).then(response => response.json())
+          .then(data => {
+            console.log(data)
+            if (data.error) {
+              notification.error({
+                message: "Error",
+                description: data.error[0],
+                placement: "bottomRight",
+              });
+            } else {
+              notification.success({
+                message: "Successfully registered",
+                description: "Logging in..",
+                placement: "bottomRight",
+              });
+            }
+            this.setState({ spinner: false })
+          })
+          .catch(error => {
+            if (error) {
+              this.setState({ spinner: false })
+              notification.error({
+                message: "Error",
+                description: error,
+                placement: "bottomRight",
+              });
+            }
+          })
       }
     });
   };
@@ -42,7 +86,6 @@ class Register extends Component {
     const { value } = e.target;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
-
 
   render() {
 
@@ -53,13 +96,10 @@ class Register extends Component {
         xs: { span: 24 },
         sm: { span: 6 },
       },
-      // wrapperCol: {
-      //   xs: { span: 24 },
-      //   sm: { span: 16 },
-      // },
     };
 
     return (
+
       <Container className="themed-container text-center" fluid="xl">
         <div>
           <img src={Logo} className="logo"></img>
@@ -92,9 +132,11 @@ class Register extends Component {
               })(<Input.Password />)}
             </Form.Item>
             <Form.Item >
-              <Button type="primary" htmlType="submit" className="register-form-button">
-                Register
+              <Spin indicator={antIcon} spinning={this.state.spinner}>
+                <Button type="primary" htmlType="submit" className="register-form-button">
+                  Register
               </Button>
+              </Spin>
             </Form.Item>
           </Form>
         </div>
