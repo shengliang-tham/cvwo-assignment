@@ -73,7 +73,7 @@ class TodoInput extends Component {
             /> */}
           </div>
 
-          <button type="submit"
+          <button type="submit" disabled={!this.state.item}
             className="btn btn-block btn-primary mt-3">
             Add Item
           </button>
