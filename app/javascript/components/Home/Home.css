@@ -2,3 +2,24 @@
   margin-top: 20px;
   margin-left: 20px;
 }
+
+#components-layout-demo-fixed .logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px 24px 16px 0;
+  float: left;
+}
+
+.logout {
+  float: right;
+}
+
+.ant-menu-item {
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.ant-layout {
+  height: 100%;
+}

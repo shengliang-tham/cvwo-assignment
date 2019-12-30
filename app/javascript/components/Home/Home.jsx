@@ -6,8 +6,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './Home.css'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";
-import { notification, Spin, } from 'antd';
+import { notification, Spin, Layout, Menu, Breadcrumb } from 'antd';
+import Logo from 'images/logo_transparent.png'
 
+
+const { Header, Content, Footer } = Layout;
 
 class Home extends Component {
   // state = {
@@ -114,6 +117,20 @@ class Home extends Component {
     columnOrder: ['column-1', 'column-2', 'column-3']
   }
 
+  logout = () => {
+    console.log("logout")
+    fetch('/api/logout')
+      .then(response => response.json())
+      .then(result => {
+        notification.success({
+          message: "Logout",
+          description: result.success,
+          placement: "bottomRight",
+        });
+        this.props.history.push('/');
+      })
+  }
+
   onDragEnd = result => {
     const { destination, source, draggableId, type } = result
 
@@ -175,36 +192,57 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <div className="container-fluid">
-          <div className="row">
-            {/* <div className="col-10 mx-auto col-md-8 mt-4"> */}
-            <div className="col-4">
-              <h3 className="text-capitalize text-center">
-                Todo Input
-              </h3>
-              <TodoInput />
-              <TodoList />
-            </div>
-            <div className="col-8">
-              <DragDropContext onDragEnd={this.onDragEnd}>
-                <Droppable droppableId="all-columns" direction="horizontal" type="column">
-                  {(provided) => (
-                    <div className="row" {...provided.droppableProps} ref={provided.innerRef}>
-                      {this.state.columnOrder.map((columnId, index) => {
-                        const column = this.state.columns[columnId]
-                        const tasks = column.taskIds.map(taskId => this.state.tasks[taskId])
 
-                        return <Column key={column.id} column={column} tasks={tasks} index={index} />
-                      })}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-              </DragDropContext>
+        <Layout>
+          <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+            <div className="logo">
             </div>
-          </div>
-        </div>
+            <Menu
+              theme="dark"
+              mode="horizontal"
+              defaultSelectedKeys={['1']}
+              style={{ lineHeight: '64px' }}
+            >
+              <Menu.Item key="1">Home</Menu.Item>
+              <Menu.Item key="2" className="logout" onClick={this.logout}>Log out</Menu.Item>
+            </Menu>
+          </Header>
+          <Content style={{ padding: '0 50px', marginTop: 64 }} className="content">
+
+
+            <div className="container-fluid">
+              <div className="row">
+                {/* <div className="col-10 mx-auto col-md-8 mt-4"> */}
+                <div className="col-4">
+                  <h3 className="text-capitalize text-center">
+                    Todo Input
+              </h3>
+                  <TodoInput />
+                  <TodoList />
+                </div>
+                <div className="col-8">
+                  <DragDropContext onDragEnd={this.onDragEnd}>
+                    <Droppable droppableId="all-columns" direction="horizontal" type="column">
+                      {(provided) => (
+                        <div className="row" {...provided.droppableProps} ref={provided.innerRef}>
+                          {this.state.columnOrder.map((columnId, index) => {
+                            const column = this.state.columns[columnId]
+                            const tasks = column.taskIds.map(taskId => this.state.tasks[taskId])
+
+                            return <Column key={column.id} column={column} tasks={tasks} index={index} />
+                          })}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
+                </div>
+              </div>
+            </div>
+          </Content>
+        </Layout>,
       </div >
+
     )
   }
 }
