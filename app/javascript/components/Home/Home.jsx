@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './Home.css'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";
+import { notification, Spin, } from 'antd';
 
 
 class Home extends Component {
@@ -16,6 +17,27 @@ class Home extends Component {
   //   editItem: false,
   //   date: null
   // }
+
+  state = {
+    loading: false
+  }
+
+  componentDidMount() {
+    this.setState({ loading: true })
+    fetch('/api/retrieve-posts', {
+      method: 'get'
+    }).then(response => response.json())
+      .then(posts => {
+        if (posts.status_code === "401") {
+          notification.error({
+            message: "Error",
+            description: posts.error,
+            placement: "bottomRight",
+          });
+          this.props.history.push('/');
+        }
+      })
+  }
 
   // handleChange = (e) => {
   //   this.setState({

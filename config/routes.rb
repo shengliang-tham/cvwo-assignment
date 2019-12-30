@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   post '/api/create-user' => 'users#create'
   post '/api/login' => 'sessions#create'
   get '/api/logout' => 'sessions#destroy'
+  get '/api/authenticated' => 'sessions#logged_in'
   get '/api/retrieve-posts' => 'posts#show' 
   
   match '*path', to:'homepage#index', via: :all
