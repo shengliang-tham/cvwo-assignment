@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   post '/api/login' => 'sessions#create'
   get '/api/logout' => 'sessions#destroy'
   get '/api/authenticated' => 'sessions#logged_in'
-  get '/api/retrieve-posts' => 'posts#show' 
+  
+  get '/api/posts' => 'posts#index'
   
   match '*path', to:'homepage#index', via: :all
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

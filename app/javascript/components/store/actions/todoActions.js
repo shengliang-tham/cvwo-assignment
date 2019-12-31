@@ -17,3 +17,7 @@ export const edit_todo = (id, title) => {
 export const toggle_edit = (toggle) => {
   return { type: 'TOGGLE_EDIT', payload: toggle }
 }
+
+export const retrieve_todos = () => {
+  return { type: 'RETRIEVE_TODOS' }
+}
