@@ -3,11 +3,13 @@ import TodoInput from './TodoInput'
 import TodoList from './TodoList'
 import Column from './Draggables/Column'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { connect } from 'react-redux'
 import './Home.css'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";
 import { notification, Spin, Layout, Menu, Breadcrumb } from 'antd';
 import Logo from 'images/logo_transparent.png'
+import { retrieveTodos } from '../store/actions/todoActions'
 
 
 const { Header, Content, Footer } = Layout;
@@ -27,19 +29,21 @@ class Home extends Component {
 
   componentDidMount() {
     this.setState({ loading: true })
-    fetch('/api/retrieve-posts', {
-      method: 'get'
-    }).then(response => response.json())
-      .then(posts => {
-        if (posts.status_code === "401") {
-          notification.error({
-            message: "Error",
-            description: posts.error,
-            placement: "bottomRight",
-          });
-          this.props.history.push('/');
-        }
-      })
+    this.props.retrieveTodos()
+    console.log(this.props.todo)
+    // fetch('/api/retrieve-posts', {
+    //   method: 'get'
+    // }).then(response => response.json())
+    //   .then(posts => {
+    //     if (posts.status_code === "401") {
+    //       notification.error({
+    //         message: "Error",
+    //         description: posts.error,
+    //         placement: "bottomRight",
+    //       });
+    //       this.props.history.push('/');
+    //     }
+    //   })
   }
 
   // handleChange = (e) => {
@@ -118,7 +122,6 @@ class Home extends Component {
   }
 
   logout = () => {
-    console.log("logout")
     fetch('/api/logout')
       .then(response => response.json())
       .then(result => {
@@ -247,17 +250,18 @@ class Home extends Component {
   }
 }
 
-// const mapStateToProps = state => {
-//   return {
-//     todo: state.todo
-//   }
-// }
+const mapStateToProps = state => {
+  return {
+    todo: state.todo
+  }
+}
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     addTodo: () => { dispatch(add_todo) }
-//   }
-// }
+const mapDispatchToProps = dispatch => {
+  return {
+    addTodo: () => { dispatch(add_todo) },
+    retrieveTodos: () => { dispatch(retrieveTodos()) }
+  }
+}
 
-// export default connect(mapStateToProps, mapDispatchToProps)(App)
-export default Home
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
+// export default Home

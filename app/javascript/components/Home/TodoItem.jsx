@@ -5,9 +5,13 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, In
 
 class Todoitem extends Component {
 
-  state = {
-    item: ''
+  constructor(props) {
+    super(props)
+    this.state = {
+      item: props.title
+    }
   }
+
 
   handleEdit = (id, title) => {
     this.props.editTodo(edit_todo(id, title))
@@ -15,7 +19,7 @@ class Todoitem extends Component {
 
   toggleEdit = (editItem, title) => {
     this.props.toggleEdit(toggle_edit(!editItem))
-    this.initializeTitle(title)
+    // this.initializeTitle(title)
 
   }
 
@@ -30,9 +34,18 @@ class Todoitem extends Component {
   }
 
   initializeTitle = (title) => {
+    console.log(title)
     this.setState({
       item: title
+    }, () => {
+      console.log(this.state)
     })
+    // console.log(this.state)
+  }
+
+  componentDidMount() {
+    // console.log(this.props)
+    // this.initializeTitle(this.props.title)
   }
 
 
@@ -73,8 +86,6 @@ class Todoitem extends Component {
     )
   }
 }
-
-
 
 
 const mapDispatchToProps = dispatch => {

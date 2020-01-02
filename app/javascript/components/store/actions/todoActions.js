@@ -18,6 +18,14 @@ export const toggle_edit = (toggle) => {
   return { type: 'TOGGLE_EDIT', payload: toggle }
 }
 
-export const retrieve_todos = () => {
-  return { type: 'RETRIEVE_TODOS' }
+export function retrieveTodos() {
+  return (dispatch) => {
+    dispatch({ type: 'FETCH_POSTS_START' })
+    return fetch('/api/posts', {
+      method: 'get'
+    }).then(response => response.json())
+      .then(todos => {
+        dispatch({ type: "RECEIVE_POSTS", payload: todos })
+      })
+  }
 }
