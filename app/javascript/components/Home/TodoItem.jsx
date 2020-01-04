@@ -8,7 +8,8 @@ class Todoitem extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      item: props.title
+      open: false,
+      editedTitle: props.title
     }
   }
 
@@ -17,11 +18,11 @@ class Todoitem extends Component {
     this.props.editTodo(edit_todo(id, title))
   }
 
-  toggleEdit = (editItem, title) => {
-    this.props.toggleEdit(toggle_edit(!editItem))
-    // this.initializeTitle(title)
+  // toggleEdit = (editItem, title) => {
+  //   this.props.toggleEdit(toggle_edit(!editItem))
+  //   // this.initializeTitle(title)
 
-  }
+  // }
 
   handleDelete = (id) => {
     this.props.deleteTodo(delete_todo(id))
@@ -29,60 +30,45 @@ class Todoitem extends Component {
 
   onChange = (e) => {
     this.setState({
-      item: e.target.value
+      editedTitle: e.target.value
     })
   }
-
-  initializeTitle = (title) => {
-    console.log(title)
-    this.setState({
-      item: title
-    }, () => {
-      console.log(this.state)
-    })
-    // console.log(this.state)
-  }
-
-  componentDidMount() {
-    // console.log(this.props)
-    // this.initializeTitle(this.props.title)
-  }
-
 
   render() {
-    console.log(this.props)
-    let { id, title, editItem, startDateTime, endDateTime } = this.props
-    let { item } = this.state
+    let { id, title } = this.props
 
     return (
-      <li className="list-group-item text-capitlize d-flex justify-content-between my-2">
-        <h6>{title}</h6>
-        <div className="todo-icon">
-          <span className="mx-2 text-success" onClick={this.toggleEdit.bind(this, editItem, title)} >
-            <i className="fas fa-pen"></i>
-          </span>
-          <span className="mx-2 text-danger" onClick={this.handleDelete.bind(this, id)}>
-            <i className="fas fa-trash"></i>
-          </span>
-        </div>
-        {/* {editItem ? <TodoEditItem /> : ''}
-         */}
-        <Modal isOpen={editItem}>
-          <ModalHeader>Edit Todo Item</ModalHeader>
-          <ModalBody>
-            <Form>
-              <FormGroup row>
-                <Input type="textarea" name="text" value={item} onChange={this.onChange.bind(this)} />
-              </FormGroup>
-            </Form>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.handleEdit.bind(this, id, item)}>Save</Button>{' '}
-            <Button color="secondary" onClick={this.toggleEdit.bind(this, editItem)}> Cancel</Button>
-          </ModalFooter>
-        </Modal>
-      </li>
+      <div>
+        <li className="list-group-item text-capitlize d-flex justify-content-between my-2">
+          <h6>{title}</h6>
+          <div className="todo-icon">
+            {/* <span className="mx-2 text-success" onClick={this.toggleEdit.bind(this, editItem)} >
+              <i className="fas fa-pen"></i>
+            </span> */}
+            <span className="mx-2 text-success" onClick={() => this.setState({ open: true })} >
+              <i className="fas fa-pen"></i>
+            </span>
+            <span className="mx-2 text-danger" onClick={this.handleDelete.bind(this, id)}>
+              <i className="fas fa-trash"></i>
+            </span>
+          </div>
 
+          <Modal isOpen={this.state.open}>
+            <ModalHeader>Edit Todo Item</ModalHeader>
+            <ModalBody>
+              <Form>
+                <FormGroup row>
+                  <Input type="textarea" name="text" value={this.state ? this.state.editedTitle : ""} onChange={this.onChange} />
+                </FormGroup>
+              </Form>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={this.handleEdit.bind(this, id, this.state.editedTitle)}>Save</Button>{' '}
+              <Button color="secondary" onClick={() => this.setState({ open: false, editedTitle: title })}> Cancel</Button>
+            </ModalFooter>
+          </Modal>
+        </li>
+      </div>
     )
   }
 }
@@ -92,7 +78,7 @@ const mapDispatchToProps = dispatch => {
   return {
     deleteTodo: (delete_todo) => { dispatch(delete_todo) },
     editTodo: (edit_todo) => { dispatch(edit_todo) },
-    toggleEdit: (toggle_edit) => { dispatch(toggle_edit) },
+    // toggleEdit: (toggle_edit) => { dispatch(toggle_edit) },
   }
 }
 

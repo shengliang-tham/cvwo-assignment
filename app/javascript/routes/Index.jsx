@@ -7,55 +7,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { notification } from 'antd';
 
 
-
-// const authenticate = new Promise((resolve, reject) => {
-//   fetch('/api/authenticated', {
-//     method: 'get'
-//   }).then(response => response.json())
-//     .then(authenticated => {
-//       console.log(authenticated)
-//       resolve(authenticated)
-//     })
-// })
-
-function checkAuth() {
-  console.log("testetstest")
-  fetch('/api/authenticated', {
-    method: 'get'
-  }).then(response => response.json())
-    .then(authenticated => {
-      console.log(authenticated)
-      // notification.error({
-      //   message: "Error",
-      //   description: "Please login first",
-      //   placement: "bottomRight",
-      // });
-      return authenticated
-    })
-}
-
-// auth = {
-//   isAuthenticated: false,
-//   authenticate() {
-//     fetch('/api/authenticated', {
-//       method: 'get'
-//     }).then(response => response.json())
-//       .then(authenticated => {
-//         console.log(authenticated)
-//         this.isAuthenticated = authenticated
-//       })
-//   }
-// }
-
-// const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
-//   <Route {...rest} render={(props) => (
-//     isAuthenticated
-//       ? <Component {...props} />
-//       : <Redirect to="/" />
-//   )} />
-
-// )
-
 const RequireAuth = (Component) => {
 
   return class App extends React.Component {
@@ -70,7 +21,6 @@ const RequireAuth = (Component) => {
         method: 'get'
       }).then(response => response.json())
         .then(authenticated => {
-          console.log(authenticated)
           if (!authenticated) {
             notification.error({
               message: "Error",

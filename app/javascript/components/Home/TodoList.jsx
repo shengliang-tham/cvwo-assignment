@@ -11,19 +11,19 @@ class Todolist extends Component {
   }
 
   render() {
-    let { items, editItem } = this.props.todo
+    const { items, editItem } = this.props.todo
     return (
       <ul className="list-group my-5">
         <h3 className="text-capitalize text-center">
           Todo List
         </h3>
         {
-          items.map(item => {
+          items.map((item) => {
+
             return (<TodoItem key={item.id} title={item.title}
               id={item.id}
-              editItem={editItem}
-              startDateTime={item.startDateTime}
-              endDateTime={item.endDateTime} />)
+              onChange={this.handleChange}
+              editItem={editItem} />)
           })
         }
 
