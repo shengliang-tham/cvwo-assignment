@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { deleteTodo, retrieveTodos, edit_todo, toggle_edit } from '../store/actions/todoActions'
+import { deleteTodo, retrieveTodos, editTodo } from '../store/actions/todoActions'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input } from 'reactstrap';
 import { notification } from 'antd';
 
@@ -16,7 +16,18 @@ class Todoitem extends Component {
 
 
   handleEdit = (id, title) => {
-    this.props.editTodo(edit_todo(id, title))
+    console.log(id, title)
+    this.props.editTodo(id, title).then(() => {
+      if (this.props.todo.editedPost.success) {
+        notification.success({
+          message: "Changed Todo",
+          description: "You have changed a todo item",
+          placement: "bottomRight",
+        });
+        this.setState({ open: false })
+        this.props.retrieveTodos()
+      }
+    })
   }
 
   // toggleEdit = (editItem, title) => {
@@ -93,7 +104,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     deleteTodo: (id) => { return dispatch(deleteTodo(id)) },
-    editTodo: (edit_todo) => { dispatch(edit_todo) },
+    editTodo: (id, title) => { return dispatch(editTodo(id, title)) },
     retrieveTodos: () => { dispatch(retrieveTodos()) }
     // toggleEdit: (toggle_edit) => { dispatch(toggle_edit) },
   }

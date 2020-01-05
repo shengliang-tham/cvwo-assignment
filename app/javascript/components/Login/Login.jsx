@@ -24,7 +24,6 @@ class Login extends Component {
       if (!err) {
 
         this.setState({ spinner: true })
-        console.log('Received values of form: ', values);
         fetch('/api/login', {
           method: 'post',
           headers: {

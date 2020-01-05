@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    @posts = Post.all
+    @posts = Post.where(user_id: session[:user_id])
     render :json => @posts
   end
 
@@ -21,6 +21,16 @@ class PostsController < ApplicationController
   def destroy
     Post.find(params[:id]).delete
     render :json => { :success => true}
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    @post.title = params[:title]
+    if(@post.save)
+      render :json => { :success => true}
+    else 
+      render :json => { :success => false}
+    end
   end
 
 

@@ -38,8 +38,6 @@ class Register extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.setState({ spinner: true })
-        console.log('Received values of form: ', values);
-        console.log(values.email)
         fetch('/api/create-user', {
           method: 'post',
           headers: {
@@ -52,7 +50,6 @@ class Register extends Component {
           })
         }).then(response => response.json())
           .then(data => {
-            console.log(data)
             if (data.error) {
               notification.error({
                 message: "Error",
@@ -67,6 +64,7 @@ class Register extends Component {
               });
             }
             this.setState({ spinner: false })
+            this.props.history.push('/home');
           })
           .catch(error => {
             if (error) {

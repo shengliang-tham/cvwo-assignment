@@ -73,3 +73,26 @@ export function deleteTodo(id) {
     })
   }
 }
+
+export function editTodo(id, title) {
+  return (dispatch) => {
+    dispatch({ type: 'EDIT_POST_START' })
+    return new Promise((resolve, reject) => {
+      fetch('/api/posts', {
+        method: 'put',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: id,
+          title: title
+        })
+      }).then(response => response.json())
+        .then(result => {
+          dispatch({ type: "EDITED_POST", payload: result })
+          resolve()
+        })
+    })
+  }
+}

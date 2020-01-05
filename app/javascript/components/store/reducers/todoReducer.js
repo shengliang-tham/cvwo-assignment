@@ -69,6 +69,17 @@ const todoReducer = (state = [], { type, payload }) => {
         deletedPost: payload
       })
 
+    case 'EDIT_POST_START':
+      return Object.assign({}, state, {
+        loading: true
+      })
+
+    case 'EDITED_POST':
+      return Object.assign({}, state, {
+        loading: false,
+        editedPost: payload
+      })
+
     default:
       return state;
   }

@@ -22,7 +22,6 @@ class SessionsController < ApplicationController
   end
 
   def logged_in
-    puts "testest"
     @current_user ||= User.find(session[:user_id]) if session[:user_id] # means that this code will return nil if the user has no session and the part after ||= is only executed if @current_user is nil
     # ||= is for "memoization" to not hit the database too many times.
     render :json => !!current_user # !! turns current_user into boolean value
