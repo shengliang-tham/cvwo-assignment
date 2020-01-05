@@ -8,7 +8,6 @@ const initialStates = {
     items: [],
     id: '',
     item: '',
-    editItem: false,
     date: null,
     startDateTime: '',
     endDateTime: '',

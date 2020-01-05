@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { delete_todo, edit_todo, toggle_edit } from '../store/actions/todoActions'
+import { deleteTodo, retrieveTodos, edit_todo, toggle_edit } from '../store/actions/todoActions'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input } from 'reactstrap';
+import { notification } from 'antd';
 
 class Todoitem extends Component {
 
@@ -25,7 +26,17 @@ class Todoitem extends Component {
   // }
 
   handleDelete = (id) => {
-    this.props.deleteTodo(delete_todo(id))
+    console.log(id)
+    this.props.deleteTodo(id).then(() => {
+      if (this.props.todo.deletedPost.success) {
+        notification.success({
+          message: "Deleted Todo",
+          description: "You have deleted a todo item",
+          placement: "bottomRight",
+        });
+        this.props.retrieveTodos()
+      }
+    })
   }
 
   onChange = (e) => {
@@ -73,14 +84,20 @@ class Todoitem extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    todo: state.todo
+  }
+}
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteTodo: (delete_todo) => { dispatch(delete_todo) },
+    deleteTodo: (id) => { return dispatch(deleteTodo(id)) },
     editTodo: (edit_todo) => { dispatch(edit_todo) },
+    retrieveTodos: () => { dispatch(retrieveTodos()) }
     // toggleEdit: (toggle_edit) => { dispatch(toggle_edit) },
   }
 }
 
 
-export default connect(null, mapDispatchToProps)(Todoitem)
+export default connect(mapStateToProps, mapDispatchToProps)(Todoitem)

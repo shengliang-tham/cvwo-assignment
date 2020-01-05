@@ -10,6 +10,12 @@ class Todolist extends Component {
     this.props.clearList(clear_todo());
   }
 
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log(nextProps)
+  //   return true
+  //   // return nextProps.isFavourite != this.props.isFavourite;
+  // }
+
   render() {
     const { items, editItem } = this.props.todo
     return (

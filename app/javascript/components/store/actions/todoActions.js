@@ -29,3 +29,47 @@ export function retrieveTodos() {
       })
   }
 }
+
+export function addTodo(title) {
+  return (dispatch) => {
+    dispatch({ type: 'ADD_POST_START' })
+    return new Promise((resolve, reject) => {
+      fetch('/api/posts', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: title
+        })
+      }).then(response => response.json())
+        .then(result => {
+          dispatch({ type: "ADDED_POST", payload: result })
+          resolve()
+        })
+    })
+  }
+}
+
+export function deleteTodo(id) {
+  return (dispatch) => {
+    dispatch({ type: 'DELETE_POST_START' })
+    return new Promise((resolve, reject) => {
+      fetch('/api/posts', {
+        method: 'delete',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: id
+        })
+      }).then(response => response.json())
+        .then(result => {
+          dispatch({ type: "DELETED_POST", payload: result })
+          resolve()
+        })
+    })
+  }
+}

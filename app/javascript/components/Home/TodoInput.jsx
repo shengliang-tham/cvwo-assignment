@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { add_todo } from '../store/actions/todoActions'
+import { addTodo, retrieveTodos } from '../store/actions/todoActions'
 // import { DatePicker } from 'antd';
 // import 'antd/dist/antd.css';
 import './TodoInput.css'
+import { notification } from 'antd';
 
 class TodoInput extends Component {
 
@@ -23,10 +24,24 @@ class TodoInput extends Component {
     e.preventDefault()
     console.log(this.state)
 
-    this.props.addTodo(add_todo(this.state))
-    this.setState({
-      item: ''
+    this.props.addTodo(this.state.item).then(() => {
+      console.log("added todo")
+      console.log(this.props)
+      if (this.props.todo.addedPost.success) {
+        this.setState({
+          item: ""
+        })
+        notification.success({
+          message: "Added Todo",
+          description: "You have added a todo item",
+          placement: "bottomRight",
+        });
+        this.props.retrieveTodos()
+      }
     })
+    // this.setState({
+    //   item: ''
+    // })
   }
 
   onChangeDate(value, dateString) {
@@ -84,13 +99,21 @@ class TodoInput extends Component {
 }
 
 
+
+const mapStateToProps = state => {
+  return {
+    todo: state.todo
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     updateInput: (update_input) => { dispatch(update_input) },
-    addTodo: (add_todo) => { dispatch(add_todo) }
+    addTodo: (title) => { return dispatch(addTodo(title)) },
+    retrieveTodos: () => { dispatch(retrieveTodos()) }
   }
 }
 
 
 
-export default connect(null, mapDispatchToProps)(TodoInput)
+export default connect(mapStateToProps, mapDispatchToProps)(TodoInput)

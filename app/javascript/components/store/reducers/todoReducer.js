@@ -47,27 +47,28 @@ const todoReducer = (state = [], { type, payload }) => {
         error: payload
       })
 
-    case 'RETRIEVE_TODOS':
-      console.log("testest")
-      dispatch({ type: 'FETCH_POSTS_START' })
+    case 'ADD_POST_START':
+      return Object.assign({}, state, {
+        loading: true
+      })
 
-      fetch('/api/posts', {
-        method: 'get'
-      }).then(response => response.json())
-        .then(todos => {
-          dispatch({ type: "RECEIVE_POSTS", payload: todos })
-          // if (todos.status_code === "401") {
-          //   return Object.assign({}, state, {
-          //     statusCode: "401",
-          //     errorMessage: todos.error
-          //   })
-          // } else {
-          //   return Object.assign({}, state, {
-          //     items: todos,
-          //     statusCode: "200"
-          //   })
-          // }
-        })
+    case 'ADDED_POST':
+      return Object.assign({}, state, {
+        loading: false,
+        addedPost: payload
+      })
+
+    case 'DELETE_POST_START':
+      return Object.assign({}, state, {
+        loading: true
+      })
+
+    case 'DELETED_POST':
+      return Object.assign({}, state, {
+        loading: false,
+        deletedPost: payload
+      })
+
     default:
       return state;
   }

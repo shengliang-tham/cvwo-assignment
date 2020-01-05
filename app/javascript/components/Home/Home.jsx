@@ -7,12 +7,13 @@ import { connect } from 'react-redux'
 import './Home.css'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";
-import { notification, Spin, Layout, Menu, Breadcrumb } from 'antd';
+import { notification, Spin, Layout, Menu, Breadcrumb, Icon } from 'antd';
 import Logo from 'images/logo_transparent.png'
 import { retrieveTodos } from '../store/actions/todoActions'
 
 
 const { Header, Content, Footer } = Layout;
+const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 class Home extends Component {
   // state = {
@@ -195,55 +196,56 @@ class Home extends Component {
   render() {
     return (
       <div>
+        <Spin indicator={antIcon} spinning={this.props.todo.loading}>
+          <Layout>
+            <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+              <div className="logo">
+              </div>
+              <Menu
+                theme="dark"
+                mode="horizontal"
+                defaultSelectedKeys={['1']}
+                style={{ lineHeight: '64px' }}
+              >
+                <Menu.Item key="1">Home</Menu.Item>
+                <Menu.Item key="2" className="logout" onClick={this.logout}>Log out</Menu.Item>
+              </Menu>
+            </Header>
+            <Content style={{ padding: '0 50px', marginTop: 64 }} className="content">
 
-        <Layout>
-          <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-            <div className="logo">
-            </div>
-            <Menu
-              theme="dark"
-              mode="horizontal"
-              defaultSelectedKeys={['1']}
-              style={{ lineHeight: '64px' }}
-            >
-              <Menu.Item key="1">Home</Menu.Item>
-              <Menu.Item key="2" className="logout" onClick={this.logout}>Log out</Menu.Item>
-            </Menu>
-          </Header>
-          <Content style={{ padding: '0 50px', marginTop: 64 }} className="content">
 
-
-            <div className="container-fluid">
-              <div className="row">
-                {/* <div className="col-10 mx-auto col-md-8 mt-4"> */}
-                <div className="col-4">
-                  <h3 className="text-capitalize text-center">
-                    Todo Input
+              <div className="container-fluid">
+                <div className="row">
+                  {/* <div className="col-10 mx-auto col-md-8 mt-4"> */}
+                  <div className="col-4">
+                    <h3 className="text-capitalize text-center">
+                      Todo Input
               </h3>
-                  <TodoInput />
-                  <TodoList />
-                </div>
-                <div className="col-8">
-                  <DragDropContext onDragEnd={this.onDragEnd}>
-                    <Droppable droppableId="all-columns" direction="horizontal" type="column">
-                      {(provided) => (
-                        <div className="row" {...provided.droppableProps} ref={provided.innerRef}>
-                          {this.state.columnOrder.map((columnId, index) => {
-                            const column = this.state.columns[columnId]
-                            const tasks = column.taskIds.map(taskId => this.state.tasks[taskId])
+                    <TodoInput />
+                    <TodoList />
+                  </div>
+                  <div className="col-8">
+                    <DragDropContext onDragEnd={this.onDragEnd}>
+                      <Droppable droppableId="all-columns" direction="horizontal" type="column">
+                        {(provided) => (
+                          <div className="row" {...provided.droppableProps} ref={provided.innerRef}>
+                            {this.state.columnOrder.map((columnId, index) => {
+                              const column = this.state.columns[columnId]
+                              const tasks = column.taskIds.map(taskId => this.state.tasks[taskId])
 
-                            return <Column key={column.id} column={column} tasks={tasks} index={index} />
-                          })}
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
-                  </DragDropContext>
+                              return <Column key={column.id} column={column} tasks={tasks} index={index} />
+                            })}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                    </DragDropContext>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Content>
-        </Layout>,
+            </Content>
+          </Layout>,
+        </Spin>
       </div >
 
     )

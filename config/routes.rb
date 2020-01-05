@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get '/api/authenticated' => 'sessions#logged_in'
   
   get '/api/posts' => 'posts#index'
+  post '/api/posts' => 'posts#create'
+  delete '/api/posts' => 'posts#destroy'
   
   match '*path', to:'homepage#index', via: :all
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
