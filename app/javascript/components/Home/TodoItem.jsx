@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { deleteTodo, retrieveTodos, editTodo } from '../store/actions/todoActions'
+import { deleteTodo, retrieveTodos, editTodo, updateColumn } from '../store/actions/todoActions'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input } from 'reactstrap';
 import { notification } from 'antd';
 
@@ -37,7 +37,20 @@ class Todoitem extends Component {
   // }
 
   handleDelete = (id) => {
-    console.log(id)
+    // console.log(id)
+
+    Object.entries(this.props.todo.columns.data.columns).forEach(([key, value]) => {
+      // console.log(`${key}:${value}`)
+      // console.log(value)
+      // console.log(value.post_id.includes(id))
+      if (value.post_id.includes(id)) {
+        value.post_id.splice(value.post_id.indexOf(id), 1)
+        return
+      }
+    })
+
+    this.props.updateColumn(this.props.todo.columns.data.columns)
+
     this.props.deleteTodo(id).then(() => {
       if (this.props.todo.deletedPost.success) {
         notification.success({
@@ -105,8 +118,9 @@ const mapDispatchToProps = dispatch => {
   return {
     deleteTodo: (id) => { return dispatch(deleteTodo(id)) },
     editTodo: (id, title) => { return dispatch(editTodo(id, title)) },
-    retrieveTodos: () => { dispatch(retrieveTodos()) }
+    retrieveTodos: () => { dispatch(retrieveTodos()) },
     // toggleEdit: (toggle_edit) => { dispatch(toggle_edit) },
+    updateColumn: (columns) => { dispatch(updateColumn(columns)) }
   }
 }
 

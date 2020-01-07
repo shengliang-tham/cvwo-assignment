@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   delete '/api/posts' => 'posts#destroy'
   put '/api/posts' => 'posts#update'
   get '/api/posts-column' => 'posts#retrieve_column' , defaults: { format: 'json' }
+  put '/api/update-column' => 'posts#update_column'
   
   
   match '*path', to:'homepage#index', via: :all

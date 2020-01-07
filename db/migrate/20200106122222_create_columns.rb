@@ -1,9 +1,9 @@
 class CreateColumns < ActiveRecord::Migration[6.0]
   def change
-    create_table :columns do |t|
+    create_table :columns ,id: :uuid do |t|
       t.string :title
       t.text :post_id, array: true, default: []
-      t.integer :column_order
+      t.string :column_order
 
       t.timestamps
     end

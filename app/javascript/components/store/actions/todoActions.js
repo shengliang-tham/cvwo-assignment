@@ -25,7 +25,6 @@ export function retrieveTodos() {
       method: 'get'
     }).then(response => response.json())
       .then(todos => {
-        console.log(todos)
         dispatch({ type: "RECEIVE_POSTS", payload: todos })
       })
   }
@@ -105,8 +104,26 @@ export function retrieveColumn() {
       method: 'get'
     }).then(response => response.json())
       .then(columns => {
-        console.log(columns)
         dispatch({ type: "RECEIVED_COLUMN", payload: columns })
+      })
+  }
+}
+
+export function updateColumn(columns) {
+  return (dispatch) => {
+    dispatch({ type: 'UPDATE_COLUMN_START' })
+    return fetch('/api/update-column', {
+      method: 'put',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        columns: columns
+      })
+    }).then(response => response.json())
+      .then(columns => {
+        dispatch({ type: "UPDATED_COLUMN", payload: columns })
       })
   }
 }

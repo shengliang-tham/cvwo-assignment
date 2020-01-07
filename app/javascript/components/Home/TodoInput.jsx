@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addTodo, retrieveTodos } from '../store/actions/todoActions'
+import { addTodo, retrieveTodos, retrieveColumn } from '../store/actions/todoActions'
 // import { DatePicker } from 'antd';
 // import 'antd/dist/antd.css';
 import './TodoInput.css'
@@ -37,6 +37,7 @@ class TodoInput extends Component {
           placement: "bottomRight",
         });
         this.props.retrieveTodos()
+        this.props.retrieveColumn()
       }
     })
     // this.setState({
@@ -110,7 +111,8 @@ const mapDispatchToProps = dispatch => {
   return {
     updateInput: (update_input) => { dispatch(update_input) },
     addTodo: (title) => { return dispatch(addTodo(title)) },
-    retrieveTodos: () => { dispatch(retrieveTodos()) }
+    retrieveTodos: () => { dispatch(retrieveTodos()) },
+    retrieveColumn: () => { return dispatch(retrieveColumn()) }
   }
 }
 

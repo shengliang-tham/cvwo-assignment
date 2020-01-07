@@ -85,7 +85,18 @@ const todoReducer = (state = [], { type, payload }) => {
         loading: true,
       })
 
+    case 'UPDATE_COLUMN_START':
+      return Object.assign({}, state, {
+        loading: true,
+      })
+
     case 'RECEIVED_COLUMN':
+      return Object.assign({}, state, {
+        loading: false,
+        columns: payload
+      })
+
+    case 'UPDATED_COLUMN':
       return Object.assign({}, state, {
         loading: false,
         columns: payload
