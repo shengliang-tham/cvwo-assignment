@@ -25,6 +25,7 @@ export function retrieveTodos() {
       method: 'get'
     }).then(response => response.json())
       .then(todos => {
+        console.log(todos)
         dispatch({ type: "RECEIVE_POSTS", payload: todos })
       })
   }
@@ -94,5 +95,18 @@ export function editTodo(id, title) {
           resolve()
         })
     })
+  }
+}
+
+export function retrieveColumn() {
+  return (dispatch) => {
+    dispatch({ type: 'FETCH_COLUMN_START' })
+    return fetch('/api/posts-column', {
+      method: 'get'
+    }).then(response => response.json())
+      .then(columns => {
+        console.log(columns)
+        dispatch({ type: "RECEIVED_COLUMN", payload: columns })
+      })
   }
 }

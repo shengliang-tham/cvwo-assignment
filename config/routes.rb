@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   post '/api/posts' => 'posts#create'
   delete '/api/posts' => 'posts#destroy'
   put '/api/posts' => 'posts#update'
+  get '/api/posts-column' => 'posts#retrieve_column' , defaults: { format: 'json' }
+  
   
   match '*path', to:'homepage#index', via: :all
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

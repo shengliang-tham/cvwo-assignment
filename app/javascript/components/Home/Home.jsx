@@ -9,20 +9,13 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";
 import { notification, Spin, Layout, Menu, Breadcrumb, Icon } from 'antd';
 import Logo from 'images/logo_transparent.png'
-import { retrieveTodos } from '../store/actions/todoActions'
+import { retrieveTodos, retrieveColumn } from '../store/actions/todoActions'
 
 
 const { Header, Content, Footer } = Layout;
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 class Home extends Component {
-  // state = {
-  //   items: [],
-  //   id: uuid(),
-  //   item: '',
-  //   editItem: false,
-  //   date: null
-  // }
 
   state = {
     loading: false
@@ -31,68 +24,8 @@ class Home extends Component {
   componentDidMount() {
     this.setState({ loading: true })
     this.props.retrieveTodos()
-    console.log(this.props.todo)
-    // fetch('/api/retrieve-posts', {
-    //   method: 'get'
-    // }).then(response => response.json())
-    //   .then(posts => {
-    //     if (posts.status_code === "401") {
-    //       notification.error({
-    //         message: "Error",
-    //         description: posts.error,
-    //         placement: "bottomRight",
-    //       });
-    //       this.props.history.push('/');
-    //     }
-    //   })
+    this.props.retrieveColumn()
   }
-
-  // handleChange = (e) => {
-  //   this.setState({
-  //     item: e.target.value
-  //   })
-  // }
-
-  // handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   let newItem = {
-  //     id: this.state.id,
-  //     title: this.state.item
-  //   }
-
-  //   let updateditems = [...this.state.items, newItem];
-  //   this.setState({
-  //     items: updateditems,
-  //     item: '',
-  //     id: uuid(),
-  //     editItem: false
-  //   })
-  // }
-
-  // clearList = () => {
-  //   this.setState({
-  //     items: []
-  //   })
-  // }
-
-  // handleDelete = (id) => {
-  //   let filteredItems = this.state.items.filter(item => item.id !== id)
-  //   this.setState({
-  //     items: filteredItems
-  //   })
-  // }
-
-  // handleEdit = (id) => {
-  //   let filteredItems = this.state.items.filter(item => item.id !== id)
-  //   let selectedItem = this.state.items.find(item => item.id === id)
-  //   this.setState({
-  //     items: filteredItems,
-  //     item: selectedItem.title,
-  //     editItem: true,
-  //     id: id
-  //   })
-  // }
-  //ASDASD
 
   state = {
     tasks: {
@@ -261,7 +194,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addTodo: () => { dispatch(add_todo) },
-    retrieveTodos: () => { dispatch(retrieveTodos()) }
+    retrieveTodos: () => { dispatch(retrieveTodos()) },
+    retrieveColumn: () => { return dispatch(retrieveColumn()) }
   }
 }
 

@@ -12,6 +12,9 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user_id = session[:user_id]
       if(@post.save)
+        @column = Column.where(title: 'To do').take
+        @column.post_id += [@post.id]
+        @column.save
         render :json => { :success => true}
       else 
         render :json => { :success => false}
@@ -35,8 +38,10 @@ class PostsController < ApplicationController
 
 
 
-  def show
-    render :json => { :error => "Test"}
+  def retrieve_column
+    @posts = Post.where(user_id: session[:user_id])
+    @columns = Column.all
+    render :create
   end
 
   def post_params

@@ -5,4 +5,5 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Post.create([{title:'Take out the garbage',user_id:"1"},{title:'Charge phone',user_id:"1"}])
+# Post.create([{title:'Take out the garbage',user_id:"1"},{title:'Charge phone',user_id:"1"}])
+Column.create([{title:'To do',column_order:1},{title:'In Progress',column_order:2},{title:'Done',column_order:3}])

@@ -33,7 +33,7 @@ class Todolist extends Component {
           })
         }
 
-        <button className="btn btn-danger btn-block text-capitalize mt-5" onClick={this.clearList}> Clear List </button>
+        {/* <button className="btn btn-danger btn-block text-capitalize mt-5" onClick={this.clearList}> Clear List </button> */}
       </ul>
     )
   }

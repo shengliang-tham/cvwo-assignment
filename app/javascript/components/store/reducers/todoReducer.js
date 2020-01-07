@@ -80,6 +80,17 @@ const todoReducer = (state = [], { type, payload }) => {
         editedPost: payload
       })
 
+    case 'FETCH_COLUMN_START':
+      return Object.assign({}, state, {
+        loading: true,
+      })
+
+    case 'RECEIVED_COLUMN':
+      return Object.assign({}, state, {
+        loading: false,
+        columns: payload
+      })
+
     default:
       return state;
   }
