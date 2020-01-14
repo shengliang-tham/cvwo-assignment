@@ -1,19 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { deleteTodo, retrieveTodos, editTodo, updateColumn } from '../store/actions/todoActions'
+import { deleteTodo, retrieveTodos, editTodo, updateColumn, retrieveColumn } from '../store/actions/todoActions'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Input } from 'reactstrap';
 import { notification } from 'antd';
 
 class Todoitem extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      open: false,
-      editedTitle: props.title
-    }
+  state = {
+    open: false,
+    editedTitle: ""
   }
 
+  componentDidMount() {
+    this.setState({
+      editedTitle: this.props.title
+    })
+  }
 
   handleEdit = (id, title) => {
     console.log(id, title)
@@ -26,6 +28,7 @@ class Todoitem extends Component {
         });
         this.setState({ open: false })
         this.props.retrieveTodos()
+        this.props.retrieveColumn()
       }
     })
   }
@@ -88,7 +91,7 @@ class Todoitem extends Component {
             </span>
           </div>
 
-          <Modal isOpen={this.state.open}>
+          <Modal isOpen={this.state ? this.state.open : false}>
             <ModalHeader>Edit Todo Item</ModalHeader>
             <ModalBody>
               <Form>
@@ -119,7 +122,7 @@ const mapDispatchToProps = dispatch => {
     deleteTodo: (id) => { return dispatch(deleteTodo(id)) },
     editTodo: (id, title) => { return dispatch(editTodo(id, title)) },
     retrieveTodos: () => { dispatch(retrieveTodos()) },
-    // toggleEdit: (toggle_edit) => { dispatch(toggle_edit) },
+    retrieveColumn: () => { return dispatch(retrieveColumn()) },
     updateColumn: (columns) => { dispatch(updateColumn(columns)) }
   }
 }
