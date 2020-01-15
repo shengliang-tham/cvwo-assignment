@@ -17,6 +17,9 @@ export const edit_todo = (id, title) => {
 export const toggle_edit = (toggle) => {
   return { type: 'TOGGLE_EDIT', payload: toggle }
 }
+export const update_search = (title) => {
+  return { type: 'UPDATE_SEARCH', payload: title }
+}
 
 export function retrieveTodos() {
   return (dispatch) => {

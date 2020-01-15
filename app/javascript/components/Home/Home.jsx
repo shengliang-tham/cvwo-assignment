@@ -7,12 +7,13 @@ import { connect } from 'react-redux'
 import './Home.css'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";
-import { notification, Spin, Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { notification, Spin, Layout, Menu, Breadcrumb, Icon, Input } from 'antd';
 import Logo from 'images/logo_transparent.png'
-import { retrieveTodos, retrieveColumn, updateColumn } from '../store/actions/todoActions'
+import { retrieveTodos, retrieveColumn, updateColumn, update_search } from '../store/actions/todoActions'
 
 
 const { Header, Content, Footer } = Layout;
+const { Search } = Input;
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 class Home extends Component {
@@ -72,6 +73,11 @@ class Home extends Component {
         });
         this.props.history.push('/');
       })
+  }
+
+  onChange = e => {
+    console.log(e.target.value)
+    this.props.updateSearch((update_search(e.target.value)))
   }
 
   onDragEnd = result => {
@@ -154,6 +160,12 @@ class Home extends Component {
                 style={{ lineHeight: '64px' }}
               >
                 <Menu.Item key="1">Home</Menu.Item>
+                {/* <Menu.Item className="float-right">
+                  <Search className="search-bar"
+                    placeholder="input search text"
+                    onChange={this.onChange}
+                  />
+                </Menu.Item> */}
                 <Menu.Item key="2" className="logout" onClick={this.logout}>Log out</Menu.Item>
               </Menu>
             </Header>
@@ -168,6 +180,12 @@ class Home extends Component {
                       Todo Input
                    </h3>
                     <TodoInput />
+
+                    <Search className="search-bar"
+                      placeholder="Search todo"
+                      onChange={this.onChange}
+                    />
+
                     <TodoList />
                   </div>
                   <div className="col-8">
@@ -216,7 +234,8 @@ const mapDispatchToProps = dispatch => {
     addTodo: () => { dispatch(add_todo) },
     retrieveTodos: () => { dispatch(retrieveTodos()) },
     retrieveColumn: () => { return dispatch(retrieveColumn()) },
-    updateColumn: (columns) => { dispatch(updateColumn(columns)) }
+    updateColumn: (columns) => { dispatch(updateColumn(columns)) },
+    updateSearch: (update_search) => { dispatch(update_search) }
   }
 }
 

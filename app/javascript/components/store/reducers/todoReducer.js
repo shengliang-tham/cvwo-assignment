@@ -32,6 +32,12 @@ const todoReducer = (state = [], { type, payload }) => {
         editItem: payload
       })
 
+    case 'UPDATE_SEARCH':
+      console.log(payload)
+      return Object.assign({}, state, {
+        search: state.items.filter((item) => item.title.toLowerCase().includes(payload.toLowerCase()))
+      })
+
     case 'FETCH_POSTS_START':
       return Object.assign({}, state, {
         loading: true
@@ -39,7 +45,8 @@ const todoReducer = (state = [], { type, payload }) => {
     case 'RECEIVE_POSTS':
       return Object.assign({}, state, {
         loading: false,
-        items: payload
+        items: payload,
+        search: payload
       })
     case 'FETCH_POSTS_ERROR':
       return Object.assign({}, state, {

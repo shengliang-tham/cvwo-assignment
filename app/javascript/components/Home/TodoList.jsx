@@ -17,14 +17,14 @@ class Todolist extends Component {
   // }
 
   render() {
-    const { items, editItem } = this.props.todo
+    const { search, editItem } = this.props.todo
     return (
       <ul className="list-group my-5">
         <h3 className="text-capitalize text-center">
           Todo List
         </h3>
         {
-          items.map((item) => {
+          search.map((item) => {
 
             return (<TodoItem key={item.id} title={item.title}
               id={item.id}

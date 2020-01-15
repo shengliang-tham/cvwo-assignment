@@ -13,6 +13,7 @@ const initialStates = {
     endDateTime: '',
     error: null,
     loading: false,
+    search: []
   }
 }
 // const store = createStore(allReducer, initialStates, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
