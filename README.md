@@ -5,8 +5,8 @@ Matriculation Number : A0202056W
 
 # CVWO-Assignment
 
-A Todo web application
-Heroku Link : https://cvwo-todo-list.herokuapp.com/
-Test Account
-Email: a@a.com
+A Todo web application  
+Heroku Link : https://cvwo-todo-list.herokuapp.com/  
+Test Account  
+Email: a@a.com  
 Password: 123
